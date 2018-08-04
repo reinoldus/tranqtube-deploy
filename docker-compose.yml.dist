@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  nginx-videos:
+    image: nginx:latest
+    volumes:
+      - ./deployment/nginx-videos/nginx_default.conf/:/etc/nginx/conf.d/default.conf:ro
+      - ./deployment/nginx-videos/tranqtube.conf/:/etc/nginx/conf.d/tranqtube.conf:ro
+    ports:
+     - "44444:80"
+     - "44445:8080"
+  tranqtube:
+    build: .
+    environment:
+     - VIDEO_SERVER_IP="http://localhost:44445/"
+  mongo:
+    image: "mongo"
